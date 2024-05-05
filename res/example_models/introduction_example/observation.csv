@@ -1,0 +1,4 @@
+t,Drink_Machine,db,temp
+0,Off,0,2000
+12,Make_Coffee,70,4000
+25,Make_Water,50,NOB

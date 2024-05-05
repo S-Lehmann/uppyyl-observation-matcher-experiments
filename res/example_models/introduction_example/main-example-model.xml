@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+clock t;
+chan order_coffee, order_water, finished;
+int db = 0, temp = 2000;
+const int T_CRIT = 10000;
+
+void heat_up() {
+    temp += 500;
+}
+
+void cool_down() {
+    int reduced_temp = temp - 500;
+    temp = (reduced_temp &gt; 2000) ? reduced_temp : 2000; 
+}
+
+void shutdown() {
+    temp = 2000;
+}</declaration>
+	<template>
+		<name x="5" y="5">Drink_Machine_Tmpl</name>
+		<declaration>// Place local declarations here.
+clock ti, ts;</declaration>
+		<location id="id0" x="-187" y="102">
+			<name x="-204" y="120">Error</name>
+			<committed/>
+		</location>
+		<location id="id1" x="0" y="-93">
+			<name x="-17" y="-136">Wait</name>
+			<label kind="invariant" x="-25" y="-119">ts &lt;= 1</label>
+		</location>
+		<location id="id2" x="0" y="102">
+			<name x="-8" y="119">Off</name>
+			<label kind="invariant" x="17" y="93">ti &lt;= 5</label>
+		</location>
+		<location id="id3" x="-187" y="-93">
+			<name x="-229" y="-153">Make_Coffee</name>
+			<label kind="invariant" x="-229" y="-136">ts &lt;= 1 &amp;&amp;
+ti &lt;= 8</label>
+		</location>
+		<location id="id4" x="195" y="-93">
+			<name x="152" y="-153">Make_Water</name>
+			<label kind="invariant" x="152" y="-136">ts &lt;= 1 &amp;&amp;
+ti &lt;= 3</label>
+		</location>
+		<init ref="id2"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="-144" y="85">shutdown(),
+db = 0, ti = 0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-178" y="59">temp &gt;= T_CRIT</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-42" y="-212">ts &gt;= 1</label>
+			<label kind="assignment" x="-42" y="-195">cool_down(),
+ts = 0</label>
+			<nail x="51" y="-110"/>
+			<nail x="51" y="-195"/>
+			<nail x="-51" y="-195"/>
+			<nail x="-51" y="-110"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id1"/>
+			<label kind="guard" x="68" y="-26">ti &gt;= 3</label>
+			<label kind="synchronisation" x="68" y="-9">finished!</label>
+			<label kind="assignment" x="34" y="8">db = 0, ti = 0, ts = 0</label>
+			<nail x="170" y="8"/>
+			<nail x="34" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-144" y="-42">ti &gt;= 7 &amp;&amp;
+temp &lt; T_CRIT</label>
+			<label kind="synchronisation" x="-144" y="-8">finished!</label>
+			<label kind="assignment" x="-161" y="8">db = 0, ti = 0, ts = 0</label>
+			<nail x="-153" y="8"/>
+			<nail x="-34" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id4"/>
+			<label kind="guard" x="76" y="-127">ti &gt; 5</label>
+			<label kind="synchronisation" x="51" y="-110">order_water?</label>
+			<label kind="assignment" x="17" y="-93">db = 50, ti = 0, ts = 0</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-119" y="-127">ti &gt; 5</label>
+			<label kind="synchronisation" x="-144" y="-110">order_coffee?</label>
+			<label kind="assignment" x="-170" y="-93">db = 70, ti = 0, ts = 0</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="8" y="51">ti &gt;= 5</label>
+			<label kind="assignment" x="8" y="68">ti = 0, ts = 0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-221" y="-229">ts &gt;= 1 &amp;&amp;
+temp &lt; T_CRIT</label>
+			<label kind="assignment" x="-221" y="-195">heat_up(),
+ts = 0</label>
+			<nail x="-136" y="-119"/>
+			<nail x="-136" y="-195"/>
+			<nail x="-238" y="-195"/>
+			<nail x="-238" y="-93"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id4"/>
+			<label kind="guard" x="153" y="-212">ts &gt;= 1</label>
+			<label kind="assignment" x="153" y="-195">cool_down(),
+ts = 0</label>
+			<nail x="246" y="-93"/>
+			<nail x="246" y="-195"/>
+			<nail x="135" y="-195"/>
+			<nail x="135" y="-110"/>
+		</transition>
+	</template>
+	<template>
+		<name>User_Tmpl</name>
+		<location id="id5" x="-195" y="-93">
+			<name x="-237" y="-127">Wait_Coffee</name>
+		</location>
+		<location id="id6" x="0" y="-93">
+			<name x="-8" y="-127">Idle</name>
+		</location>
+		<location id="id7" x="187" y="-93">
+			<name x="153" y="-127">Wait_Water</name>
+		</location>
+		<init ref="id6"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-127" y="-76">finished?</label>
+			<nail x="-161" y="-59"/>
+			<nail x="-34" y="-59"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="59" y="-76">finished?</label>
+			<nail x="153" y="-59"/>
+			<nail x="34" y="-59"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="51" y="-110">order_water!</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-144" y="-110">order_coffee!</label>
+			<nail x="-34" y="-93"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+Drink_Machine = Drink_Machine_Tmpl();
+User = User_Tmpl();
+// List one or more processes to be composed into a system.
+system Drink_Machine, User;
+    </system>
+	<queries>
+		<query>
+			<formula>A[] not Drink_Machine.Error
+			</formula>
+			<comment>
+			</comment>
+		</query>
+	</queries>
+</nta>
