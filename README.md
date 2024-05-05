@@ -6,6 +6,40 @@ The suite of observation matcher experiments conducted for the article "A model 
 
 In this section, you will find instructions to set up the Uppyyl Observation Matcher Experiments on your local machine.
 The setup was tested in the [TACAS 23 Artifact Evaluation VM](https://zenodo.org/records/7113223).
+For the setup in the TACAS 23 VM, execute the following steps:
+- Add Network adapter: 
+  - Settings -> Network -> Enable Network Adapter
+- Add the VBoxGuestAdditions:
+  - Settings -> Storage -> Controller: IDE -> "Add optical drive" button -> Select "VBoxGuestAdditions.iso"
+  - In the VM: Open the mounted drive -> execute `./autorun.sh`
+- Start the TACAS VM.
+- Download Uppaal [version 4.1.24](https://uppaal.org/downloads/other/#uppaal-41) (or copy it into the VM using a shared folder).
+- Create a folder in the VM under "Documents" were all data should be stored, and open a `cmd` there.
+- Install Python3.8 (`sudo` may be required):
+  - `add-apt-repository ppa:deadsnakes/ppa`
+  - `apt-get install python3.8`
+  - `apt-get install python3.8-distutils`
+- Install and create virtualenv:
+  - `python3.8 -m pip install virtualenv`
+  - `export PATH=/home/tacas23/.local/bin:$PATH`
+  - `virtualenv om-env`
+- Clone the repositories (or copy them into the VM using a shared folder, `sudo` may be required):
+  - `apt-get update`
+  - `apt-get install git`
+  - `git clone https://github.com/S-Lehmann/uppyyl-observation-matcher.git`
+  - `git clone https://github.com/S-Lehmann/uppyyl-observation-matcher-experiments.git`
+- Install the projects:
+  - `python3.8 -m pip install -e ./uppyyl-observation-matcher/uppaal_c_language/`
+  - `python3.8 -m pip install -e ./uppyyl-observation-matcher/uppaal_model/`
+  - `python3.8 -m pip install -e ./uppyyl-observation-matcher/uppyyl_observation_matcher/`
+  - `python3.8 -m pip install -e ./uppyyl-observation-matcher-experiments/`
+- Set the correct path to the Uppaal bin directory:
+  - Open `./uppyyl-observation-matcher-experiments/res/config.ini`
+  - Set the `uppaal_dir_path`
+- Execute the experiments:
+  - `cd uppyyl-observation-matcher-experiments/`
+  - `python3.8 -m uppyyl_observation_matcher_experiments`
+  - `run`
 
 ### Prerequisites
 
