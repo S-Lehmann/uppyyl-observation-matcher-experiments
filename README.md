@@ -95,7 +95,7 @@ To run the experiments CLI tool, first set the correct path to the `bin` directo
 Afterwards, switch to the experiments project directory:
 
 ```
-cd [PATH TO uppyyl_observation_matcher_experiments]
+cd uppyyl-observation-matcher-experiments
 ```
 
 Then, execute the following command:
