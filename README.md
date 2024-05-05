@@ -86,15 +86,16 @@ Note that the experiments use the [Uppyyl Observation Matcher](https://github.co
 To install the Uppyyl Observation Matcher Experiments, run the following command:
 
 ```
-python3.8 -m pip install -e path_to_uppyyl_observation_matcher_experiments
+python3.8 -m pip install -e ./uppyyl-observation-matcher-experiments/
 ```
 
 ### Usage
 
-To run the experiments CLI tool, first switch to the experiments project directory:
+To run the experiments CLI tool, first set the correct path to the `bin` directory of Uppaal in the `config.ini` at `uppyyl-observation-matcher-experiments/res/config.ini`.
+Afterwards, switch to the experiments project directory:
 
 ```
-cd path_to_uppyyl_observation_matcher_experiments
+cd [PATH TO uppyyl_observation_matcher_experiments]
 ```
 
 Then, execute the following command:
