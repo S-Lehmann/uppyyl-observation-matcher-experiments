@@ -19,8 +19,7 @@ otherwise, skip that part.
 - Enable the Host-only adapter:
   - Settings -> Network -> Enable Network Adapter
 - (Optional) Add the VBoxGuestAdditions, e.g., for adapting the screen resolution in the VM:
-  - Settings -> Storage -> Controller: IDE -> "Add optical drive" button -> Select "VBoxGuestAdditions.iso"
-  - In the VM: Open the mounted drive -> execute `./autorun.sh`
+  - See https://www.virtualbox.org/manual/ch04.html#guestadd-intro
 - Start the TACAS VM
   - Username / Password: tacas23
 - Create a folder in the VM under "Documents" were all data should be stored, and open a `cmd` there for the remaining setup steps.
