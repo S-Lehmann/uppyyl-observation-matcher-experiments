@@ -6,46 +6,40 @@ The suite of observation matcher experiments conducted for the article "A model 
 
 In this section, you will find instructions to set up the Uppyyl Observation Matcher Experiments on your local machine.
 The setup was tested in the [TACAS 23 Artifact Evaluation VM](https://zenodo.org/records/7113223).
-For the setup in the TACAS 23 VM, execute the following steps:
-- Add Network adapter: 
-  - Settings -> Network -> Enable Network Adapter
-- Add the VBoxGuestAdditions:
-  - Settings -> Storage -> Controller: IDE -> "Add optical drive" button -> Select "VBoxGuestAdditions.iso"
-  - In the VM: Open the mounted drive -> execute `./autorun.sh`
-- Start the TACAS VM.
-- Download Uppaal [version 4.1.24](https://uppaal.org/downloads/other/#uppaal-41) (or copy it into the VM using a shared folder).
-- Create a folder in the VM under "Documents" were all data should be stored, and open a `cmd` there.
-- Install Python3.8 (`sudo` may be required):
-  - `add-apt-repository ppa:deadsnakes/ppa`
-  - `apt-get install python3.8`
-  - `apt-get install python3.8-distutils`
-- Install and create virtualenv:
-  - `python3.8 -m pip install virtualenv`
-  - `export PATH=/home/tacas23/.local/bin:$PATH`
-  - `virtualenv om-env`
-- Clone the repositories (or copy them into the VM using a shared folder, `sudo` may be required):
-  - `apt-get update`
-  - `apt-get install git`
-  - `git clone https://github.com/S-Lehmann/uppyyl-observation-matcher.git`
-  - `git clone https://github.com/S-Lehmann/uppyyl-observation-matcher-experiments.git`
-- Install the projects:
-  - `python3.8 -m pip install -e ./uppyyl-observation-matcher/uppaal_c_language/`
-  - `python3.8 -m pip install -e ./uppyyl-observation-matcher/uppaal_model/`
-  - `python3.8 -m pip install -e ./uppyyl-observation-matcher/uppyyl_observation_matcher/`
-  - `python3.8 -m pip install -e ./uppyyl-observation-matcher-experiments/`
-- Set the correct path to the Uppaal bin directory:
-  - Open `./uppyyl-observation-matcher-experiments/res/config.ini`
-  - Set the `uppaal_dir_path`
-- Execute the experiments:
-  - `cd uppyyl-observation-matcher-experiments/`
-  - `python3.8 -m uppyyl_observation_matcher_experiments`
-  - `run`
+For the setup in the TACAS 23 VM, execute the initial steps described in the first subsection of the prerequisites section;
+otherwise, skip that part.
 
 ### Prerequisites
+
+#### Initial setup of the TACAS 23 VM
+- Download and install Oracle VM VirtualBox.
+  - Note: For MacOS, only Intel hardware is fully supported yet.
+- Add a Host-only network adapter in the settings of VirtualBox.
+- Download and import the [TACAS 23 Artifact Evaluation VM](https://zenodo.org/records/7113223) appliance.
+- Enable the Host-only adapter:
+  - Settings -> Network -> Enable Network Adapter
+- (Optional) Add the VBoxGuestAdditions, e.g., for adapting the screen resolution in the VM:
+  - Settings -> Storage -> Controller: IDE -> "Add optical drive" button -> Select "VBoxGuestAdditions.iso"
+  - In the VM: Open the mounted drive -> execute `./autorun.sh`
+- Start the TACAS VM
+  - Username / Password: tacas23
+- Create a folder in the VM under "Documents" were all data should be stored, and open a `cmd` there for the remaining setup steps.
 
 #### Python
 
 Install Python3.8 for this project.
+```
+apt-get update
+add-apt-repository ppa:deadsnakes/ppa
+apt-get install python3.8
+apt-get install python3.8-distutils
+```
+
+#### Git
+```
+apt-get update
+apt-get install git
+```
 
 #### Virtual Environment
 
@@ -54,10 +48,17 @@ If you want to install the project in a dedicated virtual environment, first ins
 python3.8 -m pip install virtualenv
 ```
 
-And create a virtual environment:
+You may need to add the path to the virtualenv tool to the `PATH` environment variable:
+```
+export PATH=<path_to_bin_dir_with_virtualenv>:$PATH
+(e.g., export PATH=/home/tacas23/.local/bin:$PATH)
+```
+
+
+Afterwards, create a virtual environment:
 
 ```
-cd project_folder
+cd <project_folder>
 virtualenv om-env
 ```
 
@@ -83,11 +84,25 @@ Note that the experiments use the [Uppyyl Observation Matcher](https://github.co
 
 ### Installing
 
-To install the Uppyyl Observation Matcher Experiments, run the following command:
+To install the Uppyyl Observation Matcher Experiments, first clone the repository:
+```
+cd <project_folder>
+git clone https://github.com/S-Lehmann/uppyyl-observation-matcher-experiments.git
+```
+
+Then install the package with the following command:
 
 ```
-python3.8 -m pip install -e ./uppyyl-observation-matcher-experiments/
+python3.8 -m pip install -e <project_folder>/uppyyl-observation-matcher-experiments/
 ```
+
+NOTE: Some experiments used a subset of the benchmark models included in the official [Uppaal](https://www.uppaal.org/) distribution.
+Initially, the experiments will only be executed for the example model developed in the journal article.
+To use the Uppaal demo model suite, copy the `2doors.xml`, `bridge.xml`, `fischer.xml`, `fischer-symmetry.xml`, `interrupt.xml`, `train-gate.xml`, and `train-gate-orig.xml` models to `./res/uppaal_demo_models`.
+Furthermore, for the case-study-based models, copy the `csmacd2.xml` model (converted from [csma_input_02](https://www.it.uu.se/research/group/darts/uppaal/benchmarks/csma/csma_input_02.ta) to `xml` with Uppaal) and the `tdma.xml` model (described in detail in [[LP97]](https://www.it.uu.se/research/group/darts/papers/texts/lp-prfts97.pdf)) to `./res/uppaal_demo_models/case-study`.
+In the `fischer.xml` and `fischer-symmetry.xml` models, change the value of the variable `N` to 3.
+Also, add observable helper variables to the model `csmacd2.xml` if you want to use it in the experiment suite (in our experiments, we added the variables "t", "P0_state", "P1_state", and "P2_state").
+To finally enable the models for the experiments, uncomment the corresponding model data under `uppyyl_observation_matcher_experiments/backend/experiments/systematic_experiments/model_data.py`.
 
 ### Usage
 
