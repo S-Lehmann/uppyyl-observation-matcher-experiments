@@ -14,9 +14,9 @@ otherwise, skip that part.
 #### Initial setup of the TACAS 23 VM
 - Download and install Oracle VM VirtualBox.
   - Note: For MacOS, only Intel hardware is fully supported yet.
-- Add a Host-only network adapter in the settings of VirtualBox.
+- (MacOS only) Add a Host-only network adapter in the settings of VirtualBox.
 - Download and import the [TACAS 23 Artifact Evaluation VM](https://zenodo.org/records/7113223) appliance.
-- Enable the Host-only adapter:
+- Enable the network adapter ("host-only" under MacOS):
   - Settings -> Network -> Enable Network Adapter
 - (Optional) Add the VBoxGuestAdditions, e.g., for adapting the screen resolution in the VM:
   - See https://www.virtualbox.org/manual/ch04.html#guestadd-intro
@@ -79,9 +79,12 @@ The [Uppaal](https://www.uppaal.org/) model checking tool (tested with [version 
 
 #### Dependencies
 
-Note that the experiments use the [Uppyyl Observation Matcher](https://github.com/S-Lehmann/uppyyl-observation-matcher) package, which needs to be installed beforehand.
+The experiments use the [Uppyyl Observation Matcher](https://github.com/S-Lehmann/uppyyl-observation-matcher) packages.
 
 ### Installing
+
+**NOTE:**
+Before installing the Uppyyl Observation Matcher Experiments, make sure that you successfully installed the [Uppyyl Observation Matcher](https://github.com/S-Lehmann/uppyyl-observation-matcher) packages (i.e., `uppaal_c_language`, `uppaal_model`, and `uppyyl_observation_matcher`) first, which provide the functionalities used in the experiments.
 
 To install the Uppyyl Observation Matcher Experiments, first clone the repository:
 ```
@@ -92,11 +95,13 @@ git clone https://github.com/S-Lehmann/uppyyl-observation-matcher-experiments.gi
 Then install the package with the following command:
 
 ```
-python3.8 -m pip install -e <project_folder>/uppyyl-observation-matcher-experiments/
+python3.8 -m pip install -e ./uppyyl-observation-matcher-experiments/
 ```
 
-NOTE: Some experiments used a subset of the benchmark models included in the official [Uppaal](https://www.uppaal.org/) distribution.
-Initially, the experiments will only be executed for the example model developed in the journal article.
+
+**NOTE:**
+Out of the box, the experiments will be executed only for the example model developed in the journal article.
+Some experiments also used a subset of the benchmark models included in the official [Uppaal](https://www.uppaal.org/) distribution.
 To use the Uppaal demo model suite, copy the `2doors.xml`, `bridge.xml`, `fischer.xml`, `fischer-symmetry.xml`, `interrupt.xml`, `train-gate.xml`, and `train-gate-orig.xml` models to `./res/uppaal_demo_models`.
 Furthermore, for the case-study-based models, copy the `csmacd2.xml` model (converted from [csma_input_02](https://www.it.uu.se/research/group/darts/uppaal/benchmarks/csma/csma_input_02.ta) to `xml` with Uppaal) and the `tdma.xml` model (described in detail in [[LP97]](https://www.it.uu.se/research/group/darts/papers/texts/lp-prfts97.pdf)) to `./res/uppaal_demo_models/case-study`.
 In the `fischer.xml` and `fischer-symmetry.xml` models, change the value of the variable `N` to 3.
