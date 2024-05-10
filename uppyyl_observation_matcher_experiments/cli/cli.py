@@ -35,7 +35,7 @@ def _complete_path(path):
 class UppaalObservationMatcherExperimentsCLI(Cmd):
     """A CLI for the Uppaal observation matcher experiments."""
 
-    prompt = 'state_constructor_experiments> '
+    prompt = 'observation_matcher_experiments> '
     intro = ""
 
     def __init__(self):

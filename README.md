@@ -12,6 +12,10 @@ otherwise, skip that part.
 ### Prerequisites
 
 #### Initial setup of the TACAS 23 VM
+**NOTE:**
+The setup of Oracle VM VirtualBox might not work properly under MacOS/Arm64.
+If that is the case, you can still try to install the experiments directly on your machine instead of using the TACAS VM.
+
 - Download and install Oracle VM VirtualBox.
   - Note: For MacOS, only Intel hardware is fully supported yet.
 - (MacOS only) Add a Host-only network adapter in the settings of VirtualBox.
@@ -26,7 +30,7 @@ otherwise, skip that part.
 
 #### Python
 
-Install Python3.8 for this project.
+Install Python3.8 for this project (`sudo` may be required).
 ```
 apt-get update
 add-apt-repository ppa:deadsnakes/ppa
@@ -35,6 +39,8 @@ apt-get install python3.8-distutils
 ```
 
 #### Git
+
+Install any recent version of git (`sudo` may be required).
 ```
 apt-get update
 apt-get install git
@@ -42,7 +48,7 @@ apt-get install git
 
 #### Virtual Environment
 
-If you want to install the project in a dedicated virtual environment, first install virtualenv:
+If you want to install the project in a dedicated virtual environment, first install virtualenv (`sudo` may be required):
 ```
 python3.8 -m pip install virtualenv
 ```
@@ -54,7 +60,7 @@ export PATH=<path_to_bin_dir_with_virtualenv>:$PATH
 ```
 
 
-Afterwards, create a virtual environment:
+Afterwards, create a virtual environment (`sudo` may be required):
 
 ```
 cd <project_folder>
@@ -92,7 +98,7 @@ cd <project_folder>
 git clone https://github.com/S-Lehmann/uppyyl-observation-matcher-experiments.git
 ```
 
-Then install the package with the following command:
+Then install the package with the following command (`sudo` may be required):
 
 ```
 python3.8 -m pip install -e ./uppyyl-observation-matcher-experiments/
