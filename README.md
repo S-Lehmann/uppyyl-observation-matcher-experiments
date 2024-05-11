@@ -1,6 +1,7 @@
 # Uppyyl Observation Matcher Experiments
 
 The suite of observation matcher experiments conducted for the article "A model template for reachability-based containment checking of imprecise observations in timed automata" to be published in the international journal "Software and Systems Modeling" (SoSyM).
+The raw experiment data generated for the article can be found in the archive `res/raw_experiment_data.zip`.
 
 ## Getting Started
 
